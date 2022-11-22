@@ -29,5 +29,8 @@ pipeline{
                 waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
             }
         }
+        stage('nexusdocker'){
+            
+        }
     }
 }
