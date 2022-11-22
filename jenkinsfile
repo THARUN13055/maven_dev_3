@@ -30,7 +30,18 @@ pipeline{
             }
         }
         stage('nexusdocker'){
-            
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'nexus', variable: 'nexus')]) {
+                        sh '''
+                          docker build -t 172.173.152.186:8083/$JOB_NAME:$BUILD_ID .
+                          docker login -u admin -p $nexus 172.173.152.186:8083
+                          docker push 172.173.152.186:8083/$JOB_NAME:$BUILD_ID
+                          docker rmi 172.173.152.186:8083/$JOB_NAME:$BUILD_ID
+                        '''
+                    }
+                }
+            }
         }
     }
 }
