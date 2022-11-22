@@ -4,23 +4,23 @@ pipeline{
         maven 'maven3'
     }
     stages{
-        stage("git check"){
+        stage('git check'){
             steps{
                 git branch: 'main', url: 'https://github.com/THARUN13055/maven_dev_3.git'
             }
         }
-        stage("maven clean"){
+        stage('maven clean'){
             steps{
                 sh 'mvn test'
                 sh 'mvn clean install'
             }
         }
-        stage("sonar quality sts"){
+        stage('sonar quality sts'){
             withSonarQubeEnv(credentialsId: 'sonar-api') {
                sh "mvn clean package sonar:sonar"
             }
         }
-        stage("sonar get sts"){
+        stage('sonar get sts'){
             steps{
                 waitForQualityGate abortPipeline: false, credentialsId: 'sonar-api'
             }
