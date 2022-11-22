@@ -17,9 +17,9 @@ pipeline{
         }
         stage('sonar quality sts'){
             steps{
-                ithSonarQubeEnv(credentialsId: 'sonar-api') {
+                withSonarQubeEnv(credentialsId: 'sonar-api') {
                 sh "mvn clean package sonar:sonar"
-            }
+                }
             }
         }
         stage('sonar get sts'){
